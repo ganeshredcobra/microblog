@@ -2,6 +2,9 @@ from flask import render_template, flash, redirect ,jsonify
 from app import app
 from .forms import LoginForm
 from flask import abort
+from flask import make_response
+
+
 
 @app.route('/')
 @app.route('/index')
@@ -60,4 +63,13 @@ tasks = [
 def get_tasks():
     return jsonify({'tasks': tasks})
     
+@app.route('/update/<int:task_id>', methods=['GET'])
+def get_task(task_id):
+    task = [task for task in tasks if task['id'] == task_id]
+    if len(task) == 0:
+        abort(404)
+    return jsonify({'task': task[0]})
 
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
