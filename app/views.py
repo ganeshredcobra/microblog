@@ -1,6 +1,7 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect ,jsonify
 from app import app
 from .forms import LoginForm
+from flask import abort
 
 @app.route('/')
 @app.route('/index')
@@ -39,3 +40,24 @@ def login():
     return render_template('login.html', 
                            title='Sign In',
                            form=form,providers=app.config['OPENID_PROVIDERS'])
+                           
+tasks = [
+    {
+        'id': 1,
+        'title': u'Buy groceries',
+        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol', 
+        'done': False
+    },
+    {
+        'id': 2,
+        'title': u'Learn Python',
+        'description': u'Need to find a good Python tutorial on the web', 
+        'done': False
+    }
+]
+
+@app.route('/update', methods=['GET'])
+def get_tasks():
+    return jsonify({'tasks': tasks})
+    
+
