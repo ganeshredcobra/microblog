@@ -3,6 +3,7 @@ from app import app
 from .forms import LoginForm
 from flask import abort
 from flask import make_response
+from flask import request
 
 
 
@@ -73,3 +74,8 @@ def get_task(task_id):
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
+ 
+@app.route("/browser")
+def brow():
+	user_agent = request.headers.get('User-Agent')
+	return '<p>Your browser is %s</p>'%user_agent 
