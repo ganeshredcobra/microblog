@@ -2,6 +2,16 @@
 <!-- extend from base layout -->
 {% extends "base.html" %}
 {% block content %}
-<h1>Members Page!!</h1>
+	<h1>PID Values!!</h1>
+	{% if VALS %}
+		{% for VAL in VALS %}
+			{% if (VAL['ECT'] > 251) %}
+				<p> {{VAL.ECT|int+1}} {{VAL['ECT']}}</p>				
+				<h1> {{VAL.Count}} -> RPM:{{VAL.RPM}},ECT:{{VAL.ECT}} <button type="button" class="btn  btn-danger btn-sm">High</button> </h1>
+			{% else %}
+				<p> {{VAL.Count}} -> RPM:{{VAL.RPM}},ECT:{{VAL.ECT}} <button type="button" class="btn btn-success btn-md">Normal</button> </p>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
 {% endblock %}
 </html>

@@ -10,7 +10,7 @@ from flask import request
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'nickname': 'Miguel'}  # fake user
+    user = {'nickname': 'Visitor'}  # fake user
     posts = [  # fake array of posts
         { 
             'author': {'nickname': 'John'}, 
@@ -25,11 +25,7 @@ def index():
                            title='Home',
                            user=user,
                            posts=posts)
-	
-@app.route("/members")
-def members():
-    return render_template("members.html")
- 
+	 
 @app.route("/members/<string:name>/")
 def getMember(name):
     return '<h1>Hello {{%s}}</h1>'%name
@@ -60,6 +56,19 @@ tasks = [
     }
 ]
 
+Values = [
+	{
+		'Count':0,
+		'RPM':0,
+		'ECT':0
+	},
+	{
+		'Count':1,
+		'RPM':1,
+		'ECT':1
+	}
+]
+
 @app.route('/update', methods=['GET'])
 def get_tasks():
     return jsonify({'tasks': tasks})
@@ -79,3 +88,26 @@ def not_found(error):
 def brow():
 	user_agent = request.headers.get('User-Agent')
 	return '<p>Your browser is %s</p>'%user_agent 
+
+@app.route('/newtasks', methods=['POST'])
+def create_task():
+    if not request.json or not 'RPM' in request.json:
+        abort(400)
+    ValuesN = {
+        #'Count':request.json['Count'],
+        'Count': Values[-1]['Count'] + 1,
+        'RPM': request.json['RPM'],
+        'ECT': request.json['ECT']
+    }
+    Values.append(ValuesN)
+    print Values[0]['Count']
+    return jsonify({'Values': Values}), 201
+    #return render_template("members.html",VAL=Values)
+
+@app.route("/members")
+def members():
+    return render_template("members.html",VALS=Values)
+    
+@app.route('/getvals', methods=['GET'])
+def get_vals():
+    return jsonify({'VALS': Values})
