@@ -1,17 +1,61 @@
 <html>
+	<head>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
+</head>
 <!-- extend from base layout -->
 {% extends "base.html" %}
 {% block content %}
-	<h1>PID Values!!</h1>
+	<h1>Sensor Values</h1>
 	{% if VALS %}
+		<table style="width:50%">
+		  <tr>
+			<th>Count</th>
+			<th>PID</th>		
+			<th>Value</th>
+			<th>PID</th>		
+			<th>Value</th>
+			<th>Status</th>
+		  </tr>
+		
+
+		
 		{% for VAL in VALS %}
-			{% if (VAL['ECT'] > 251) %}
-				<p> {{VAL.ECT|int+1}} {{VAL['ECT']}}</p>				
-				<h1> {{VAL.Count}} -> RPM:{{VAL.RPM}},ECT:{{VAL.ECT}} <button type="button" class="btn  btn-danger btn-sm">High</button> </h1>
+			 
+			{% if VAL.ECT > 251 %}
+				<!--<h1>  -> RPM:,ECT:{{VAL.ECT}} <button type="button" class="btn  btn-danger btn-sm">High</button> </h1>-->
+				<div class="container">
+				<tr>
+					<td>{{VAL.Count}}</td>
+					<td>RPM</td>		
+					<td>{{VAL.RPM}}</td>
+					<td>ECT</td>		
+					<td>{{VAL.ECT}}</td>
+					<td><button type="button" class="btn btn-danger btn-sm">High</button></td>
+				</tr>	
+				</div>
 			{% else %}
-				<p> {{VAL.Count}} -> RPM:{{VAL.RPM}},ECT:{{VAL.ECT}} <button type="button" class="btn btn-success btn-md">Normal</button> </p>
+				<!-- <p> {{VAL.Count}} -> RPM:{{VAL.RPM}},ECT:{{VAL.ECT}} <button type="button" class="btn btn-success btn-md">Normal</button> </p>-->
+				<div class="container">
+				<tr>
+					<td>{{VAL.Count}}</td>
+					<td>RPM</td>		
+					<td>{{VAL.RPM}}</td>
+					<td>ECT</td>		
+					<td>{{VAL.ECT}}</td>
+					<td><button type="button" class="btns btn-success btn-sm">Normal</button></td>
+				</tr>
+				</div>	
 			{% endif %}
 		{% endfor %}
+		</table>
 	{% endif %}
 {% endblock %}
 </html>
