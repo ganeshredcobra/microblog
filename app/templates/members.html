@@ -7,6 +7,7 @@ table, th, td {
 }
 th, td {
     padding: 5px;
+    text-align:center;
 }
 </style>
 </head>
@@ -23,13 +24,9 @@ th, td {
 			<th>PID</th>		
 			<th>Value</th>
 			<th>Status</th>
-		  </tr>
-		
-
-		
-		{% for VAL in VALS %}
-			 
-			{% if VAL.ECT > 251 %}
+		  </tr>		
+		{% for VAL in VALS %}			 
+			{% if (VAL.get('ECT')|int > 251) %}				
 				<!--<h1>  -> RPM:,ECT:{{VAL.ECT}} <button type="button" class="btn  btn-danger btn-sm">High</button> </h1>-->
 				<div class="container">
 				<tr>
